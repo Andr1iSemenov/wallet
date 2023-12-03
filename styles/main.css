@@ -1,0 +1,74 @@
+header {
+    background-color: #263241;
+}
+
+body {
+    background-image: url('../assets/bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+.crypto-form {
+    position: relative;
+    margin-top: 100px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    min-width: 400px;
+    max-width: 550px;
+}
+
+.nav-link {
+    color: #a19bab;
+    font-weight: 700;
+}
+
+.qr-code {
+    /*position: absolute;*/
+    top: 20px;
+    right: 25px;
+}
+
+.network {
+    margin-top: 8px;
+}
+
+.receive {
+    margin-bottom: 0;
+}
+
+.address {
+    letter-spacing: -0.1px
+}
+
+.copy-icon {
+    margin: 3px 0 0 4px;
+    width: 15px;
+    height: 15px;
+}
+
+.send-icon {
+    width: 35px;
+    height: 35px;
+}
+
+.receive input {
+    text-overflow: ellipsis;
+}
+
+.your-address {
+    border: 1px solid lightgrey;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/*COLORS*/
+.grey {
+    color: lightslategrey;
+}
