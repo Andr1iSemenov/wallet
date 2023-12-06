@@ -18,17 +18,19 @@ class Renderer{
         });
     }
 
-    renderBalance() {
-        document.getElementById("balance").innerHTML = app.getBalance();
+    async renderBalance() {
+        document.getElementById("balance").innerHTML = await this.app.getBalance();
     }
 
-    renderInputAddress() {
-        document.getElementById('address').value = app.getAddress();
+    async renderInputAddress() {
+        document.getElementById('address').value = await this.app.getAddress();
     }
 
-    renderQRAddress() {
+    async renderQRAddress() {
         let element = document.getElementById("qrcode");
         element.innerHTML = ''; //destroy previous
-        new QRCode(element, {text: app.getAddress(), width: 200, height: 200});
+        new QRCode(element, {text: await this.app.getAddress(), width: 200, height: 200});
     }
 }
+
+module.exports = Renderer;

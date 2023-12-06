@@ -21,3 +21,5 @@ class ListenerManager{
         });
     }
 }
+
+module.exports = ListenerManager;
