@@ -1,4 +1,5 @@
 const Dotenv = require('dotenv-webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 const path = require('path');
 const isProduction = process.env.NODE_ENV === 'production';
@@ -15,6 +16,9 @@ const config = {
         }),
         new webpack.ProvidePlugin({
             Buffer: ['buffer', 'Buffer'],
+        }),
+        new HtmlWebpackPlugin({
+            template: 'index.html'
         }),
         new Dotenv(),
     ],

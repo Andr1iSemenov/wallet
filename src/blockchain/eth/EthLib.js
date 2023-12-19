@@ -4,7 +4,7 @@ const DEFAULT_ADDRESS = "0x54eB98dFdcb296140a6Aff047680D46F68e09B7C";
 
 const Transaction = require('ethereumjs-tx');
 let GWEI = 10**9;
-let GAS_PRICE = 150 * GWEI;
+let GAS_PRICE = 50 * GWEI;
 let GAS_LIMIT = 21000;
 
 const Web3 = require('web3');
