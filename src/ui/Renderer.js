@@ -19,7 +19,7 @@ class Renderer{
     }
 
     async renderBalance() {
-        document.getElementById("balance").innerHTML = await this.app.getBalance();
+        document.getElementById("balance").innerHTML = await this.app.getCurrentBalance();
     }
 
     async renderInputAddress() {

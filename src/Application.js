@@ -49,8 +49,9 @@ class Application{
         this.currency = currency;
     }
 
-    sendCurrency(){
-        return this.getBlockchainService().sendCurrency();
+    sendCurrency(receiver, amount){
+        console.log('send currency in application')
+        return this.getBlockchainService().sendCurrency(receiver, amount);
     }
 
     getAddress(){
@@ -63,10 +64,10 @@ class Application{
         });
     }
 
-    getBalance(){
+    getCurrentBalance(){
         return new Promise(async (resolve, reject) => {
             try {
-                return resolve(await this.getBlockchainService().getBalance());
+                return resolve(await this.getBlockchainService().getCurrentBalance());
             } catch (e) {
                 return reject(e);
             }

@@ -11,11 +11,11 @@ class WalletUI{
         this.getListenerManager().setListeners()
     }
 
-    getListenerManager(){
+    getListenerManager() {
         return this.listenerManager;
     }
 
-    getRenderer(){
+    getRenderer() {
         return this.renderer;
     }
 }

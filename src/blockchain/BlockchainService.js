@@ -1,14 +1,11 @@
-const DEFAULT_BALANCE = 1.516;
-const DEFAULT_ADDRESS = "0x9dd7CA2A77704836667CD69F805052656eF3aBB3";
-
 const EthLib = require("./eth/EthLib");
-const ETH = "ETH";
 
 class BlockchainService{
 
     constructor(app) {
         this.app = app;
         let eth = new EthLib(app);
+
         this.currencyLibraries = {
             ETH: eth
         }
@@ -29,11 +26,11 @@ class BlockchainService{
         });
     }
 
-    getBalance(){
+    getCurrentBalance(){
         return new Promise(async (resolve, reject) => {
             try {
                 let address = await this.getCurrencyLibrary().getAddress();
-                let balance = await this.getCurrencyLibrary().getBalance(address);
+                let balance = await this.getCurrencyLibrary().getCurrentBalance(address);
                 return resolve(balance);
             } catch (e) {
                 return reject(e);
@@ -41,13 +38,16 @@ class BlockchainService{
         });
     }
 
-    sendCurrency() {
-        let currency = this.app.getCurrency();
-        let amount = document.getElementById("amount").value;
-        let address = document.getElementById("receiver").value;
-        alert(`Sending ${amount} ${currency} to ${address}`);
-
-        this.getCurrencyLibrary().sendCurrency(address, amount);
+    sendCurrency(receiver, amount) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                console.log('send currency in bc service')
+                let result = await this.getCurrencyLibrary().sendCurrency(receiver, amount);
+                return resolve(result);
+            } catch (e) {
+                return reject(e);
+            }
+        });
     }
 }
 
