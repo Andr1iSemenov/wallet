@@ -11,21 +11,27 @@ class AbstractCurrencyLib{
         this.converter = converter;
     }
 
+    getBlockchainService(){
+        return this.app.blockchainService;
+    }
+
     getAddress(){
-        return new Promise(async(resolve,reject)=>{
+        return new Promise(async(resolve, reject)=>{
             try{
-                throw("getAddress not implemented");
-            }catch(e){
+                let address = this.getBlockchainService().getAddress();
+                return resolve(address);
+            }catch (e){
                 return reject(e);
             }
         })
-    };
+    }
 
     getPrivateKey(){
-        return new Promise(async(resolve,reject)=>{
+        return new Promise(async(resolve, reject)=>{
             try{
-                throw("getPrivKey not implemented");
-            }catch(e){
+                let privKey = this.getBlockchainService().getPrivateKey();
+                return resolve(privKey);
+            }catch (e){
                 return reject(e);
             }
         })
@@ -34,11 +40,8 @@ class AbstractCurrencyLib{
     getCurrentBalance(){
         return new Promise(async(resolve,reject)=>{
             try{
-                console.log("Abstract getCurrentBalance start");
                 let address = await this.getAddress();
-                console.log("Abstract getCurrentBalance middle",address);
                 let balance =await this.getBalance(address);
-                console.log("Abstract getCurrentBalance end",balance);
                 return resolve(balance);
             }catch (e){
                 return reject(e);

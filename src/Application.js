@@ -1,18 +1,25 @@
+const NODE_ENV = process.env.NODE_ENV;
 const DEFAULT_CURRENCY = "ETH";
 
 const Renderer = require("./ui/Renderer");
 const ListenerManager = require("./ui/ListenerManager");
 const WalletUI = require("./ui/WalletUI");
 const BlockchainService = require("./blockchain/BlockchainService")
+const HttpService = require("./services/HttpService")
 
 class Application{
 
     constructor() {
         this.currency = DEFAULT_CURRENCY;
+        this.httpService = new HttpService(this);
         let renderer = new Renderer(this);
         let listenerManager = new ListenerManager(this);
         this.setWalletUI(new WalletUI(this, listenerManager, renderer));
         this.setBlockchainService(new BlockchainService(this));
+    }
+
+    isProduction(){
+        return NODE_ENV === "production";
     }
 
     setWalletUI(walletUI){
@@ -41,8 +48,7 @@ class Application{
 
     changeCurrency(currency){
         this.setCurrency(currency);
-        console.log(this.getWalletUI())
-        this.getWalletUI().getRenderer().renderUI();
+        this.getWalletUI().renderUI();
     }
 
     setCurrency(currency){
@@ -50,7 +56,6 @@ class Application{
     }
 
     sendCurrency(receiver, amount){
-        console.log('send currency in application')
         return this.getBlockchainService().sendCurrency(receiver, amount);
     }
 
@@ -72,6 +77,15 @@ class Application{
                 return reject(e);
             }
         });
+    }
+
+    generateMnemonic() {
+        return this.blockchainService.generateMnemonic();
+    }
+
+    importMnemonic(mnemonic) {
+        this.blockchainService.importMnemonic(mnemonic);
+        this.walletUI.renderUI();
     }
 }
 

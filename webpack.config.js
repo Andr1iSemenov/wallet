@@ -1,5 +1,6 @@
 const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
 const path = require('path');
 const isProduction = process.env.NODE_ENV === 'production';
@@ -10,6 +11,11 @@ const config = {
         path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'static' }
+            ]
+        }),
         // fix "process is not defined" error:
         new webpack.ProvidePlugin({
             process: 'process/browser',

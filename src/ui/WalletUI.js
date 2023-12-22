@@ -7,7 +7,15 @@ class WalletUI{
     }
 
     prepareUI(){
+        this.renderUI();
+        this.setListeners();
+    }
+
+    renderUI() {
         this.getRenderer().renderUI();
+    }
+
+    setListeners() {
         this.getListenerManager().setListeners()
     }
 

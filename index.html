@@ -34,9 +34,17 @@
             <li class="nav-currency">
                 <a class="nav-link" data-value="ERC20" href="#">ERC20</a>
             </li>
+            <li class="nav-currency">
+                <a class="nav-link" data-value="BTC" href="#">BTC</a>
+            </li>
         </ul>
     </div>
 </header>
+
+<div class="d-flex justify-content-end">
+    <input id="import_mnemonic" type="password" class="col-2" placeholder="Import Mnemonic" aria-label="Search">
+    <button id="generate_mnemonic" class="btn btn-light col-1">GENERATE</button>
+</div>
 
 <main class="main">
     <div class="d-flex justify-content-center">
@@ -56,7 +64,7 @@
 
                 <div class="receive d-flex justify-content-center align-items-center mt-2">
                     <input type="text" class="form-control text-center" readonly id="address">
-                    <img src="./assets/icons/copy.svg" class="copy-icon" alt="copy">
+                    <img src="./assets/icons/copy.svg" class="copy-icon" alt="copy" id="copy-address">
                 </div>
             </div>
 
