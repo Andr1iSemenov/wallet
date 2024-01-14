@@ -1,4 +1,6 @@
-const isProduction = false;// require('/src/isProduction'); // TODO
+const isProduction = require('/src/isProduction');
+console.log('process.env', process.env.NODE_ENV)
+console.log('isProduction: ', isProduction)
 class AbstractNetworkHelper{
     static isMainnet(){
         return isProduction;

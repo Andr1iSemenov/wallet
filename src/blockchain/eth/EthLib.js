@@ -1,6 +1,4 @@
 const PROVIDER_URL = process.env.ETH_PROVIDER_URL;
-const PRIVATE_KEY = process.env.ETH_PRIVATE_KEY;
-const DEFAULT_ADDRESS = "0x54eB98dFdcb296140a6Aff047680D46F68e09B7C";
 
 const Transaction = require('ethereumjs-tx');
 let GWEI = 10**9;
@@ -13,10 +11,17 @@ const Validator = require('/src/validators/blockchain/EthValidator.js');
 
 const AbstractCurrencyLib = require('/src/blockchain/AbstractCurrencyLib')
 const {add} = require("lodash/math");
+const buildProvider = require('../eth/ProviderBuilder');
+const EthNetworkProvider = require('./EthNetworkHelper')
+
+console.log('BTC_WIF: ', process.env.BTC_WIF)
+console.log('NODE_ENV: ', process.env.NODE_ENV == 'production')
+console.log('NODE_ENV: ', process.env.NODE_ENV )
+console.log('test: ', process.env.ERC20_CONTRACT_ADDRESS)
 
 class EthLib extends AbstractCurrencyLib{
     constructor(app) {
-        let provider = new Web3(new Web3.providers.HttpProvider(PROVIDER_URL));
+        let provider = buildProvider(PROVIDER_URL);
         let converter = new EthConverter();
         let validator = new Validator();
 
@@ -24,7 +29,7 @@ class EthLib extends AbstractCurrencyLib{
     }
 
     _getChainId(){
-        return 11155111;
+        return EthNetworkProvider.getNetwork();
     }
 
     // getAddress(){

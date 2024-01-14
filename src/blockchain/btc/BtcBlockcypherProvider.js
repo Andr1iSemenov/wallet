@@ -19,8 +19,12 @@ class BtcBlockcypherProvider {
 
     }
 
+    getSymbol() {
+        return BTC;
+    }
+
     getProviderUrl(){
-        return PROVIDER_URL+"btc/"+this._getNetworkUrl()
+        return PROVIDER_URL + this.getSymbol().toLowerCase() + '/' + this._getNetworkUrl()
     }
     _getNetworkUrl(){
         if(this.app.isProduction()){
@@ -50,7 +54,7 @@ class BtcBlockcypherProvider {
                 this.validator.validateObject(parameters,"urlCompose.parameters");
                 var address = parameters["address"];
                 this.validator.validateAddress(address);
-                relativeUrl = `/addrs/${address}?unspentOnly=true`;
+                relativeUrl = `/addrs/${address}?unspentOnly=true&includeScript=true`;
                 break;
         }
         let url = `${base}${relativeUrl}&token=${API_TOKEN}`;
@@ -106,20 +110,30 @@ class BtcBlockcypherProvider {
                     // console.log("addSignedUtxos before loop");
                     for (let key in utxos) {
                         console.log("addSignedUtxos adding input hash %s, output index %s ",utxos[key].txid, utxos[key].vout);
-                        txb.addInput(utxos[key].txid, utxos[key].vout);
+                        txb.addInput({
+                            hash: utxos[key].txid,
+                            index: utxos[key].vout,
+                            sequence: 0xffffffff,
+                            witnessUtxo: {
+                                script: Buffer.from(utxos[key].script, 'hex'),
+                                value: utxos[key].value
+                            }
+                        });
                     }
                     //console.log("addSignedUtxos after loop",txb);
                     console.log("addSignedUtxos before adding to amount", to, amount);
-                    txb.addOutput(to, amount);
-                    console.log("addSignedUtxos before adding from change", from, change);
-                    txb.addOutput(from, change);
-                    let i = 0;
-                    // console.log("addSignedUtxos before signing to")
-                    for (let key in utxos) {
-                        txb.sign(i, keyring)
-                        i++;
-                    }
-                    console.log("addSignedUtxos resolve txBuilder", txb);
+                    txb.addOutput({
+                        address: to,
+                        value: amount
+                    });
+
+                    txb.addOutput({
+                        address: from,
+                        value: change
+                    });
+
+                    txb.signAllInputs(keyring);
+                    txb.finalizeAllInputs()
                     return resolve(txb);
                 }
             }catch (e){
@@ -147,7 +161,9 @@ class BtcBlockcypherProvider {
                             tmpSum+=allUtxo[key].value;
                             requiredUtxo.push({
                                 txid:allUtxo[key].tx_hash,
-                                vout:allUtxo[key].tx_output_n
+                                vout:allUtxo[key].tx_output_n,
+                                value:allUtxo[key].value,
+                                script:allUtxo[key].script,
                             })
                         }else{
                             break;
@@ -201,7 +217,6 @@ class BtcBlockcypherProvider {
                 let url = this.urlCompose(SEND);
                 let body= JSON.stringify({"tx": rawTx});
                 let result=await this.postRequest(url, body);
-                //console.log("sendTx result",result);
                 return resolve(result.tx.hash);
             }catch (e) {
                 return reject(e)

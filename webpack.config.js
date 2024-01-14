@@ -1,9 +1,19 @@
-const Dotenv = require('dotenv-webpack');
+const env = require('dotenv').config(); //load all defaults\common from .env
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
 const path = require('path');
+
 const isProduction = process.env.NODE_ENV === 'production';
+
+const envFile = isProduction ? '.env.production' : '.env.development';
+const envPath = path.resolve(__dirname, envFile);
+const envVars = require('dotenv').config({ path: envPath }).parsed || {};
+
+const mergedEnv = {
+    ...env.parsed,
+    ...envVars
+}
 
 const config = {
     entry: './src/index.js',
@@ -26,7 +36,9 @@ const config = {
         new HtmlWebpackPlugin({
             template: 'index.html'
         }),
-        new Dotenv(),
+        new webpack.DefinePlugin({
+            'process.env': JSON.stringify(mergedEnv),
+        }),
     ],
     resolve: {
         extensions: [ '.ts', '.js' ],
@@ -56,7 +68,6 @@ const config = {
 module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
-
 
     } else {
         config.mode = 'development';

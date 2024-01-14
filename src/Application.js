@@ -1,4 +1,4 @@
-const NODE_ENV = process.env.NODE_ENV;
+const isProduction = require('/src/isProduction');
 const DEFAULT_CURRENCY = "ETH";
 
 const Renderer = require("./ui/Renderer");
@@ -19,7 +19,7 @@ class Application{
     }
 
     isProduction(){
-        return NODE_ENV === "production";
+        return isProduction;
     }
 
     setWalletUI(walletUI){

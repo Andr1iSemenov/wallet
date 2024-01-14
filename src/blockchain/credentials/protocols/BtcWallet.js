@@ -6,7 +6,7 @@ const bip32 = require("bip32");
 class BtcWallet extends AbstractCurrencyWallet{
 
     _getPath(){
-        return BtcNetworkHelper.isMainnet()?`m/44'/0'/0'/0/0`:`m/44'/1'/0'/0/0`;
+        return BtcNetworkHelper.isMainnet() ? `m/44'/0'/0'/0/0` : `m/44'/1'/0'/0/0`;
     }
     _getNetwork(){
         return BtcNetworkHelper.getNetwork();
